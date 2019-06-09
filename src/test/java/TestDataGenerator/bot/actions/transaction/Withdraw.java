@@ -1,0 +1,27 @@
+package TestDataGenerator.bot.actions.transaction;
+
+import TestDataGenerator.AmountGenerator;
+import TestDataGenerator.bot.Bot;
+import TestDataGenerator.bot.actions.ActionBase;
+import model.entities.accounts.Account;
+import model.entities.members.Member;
+import model.services.accounts.AccountService;
+import model.services.accounts.MemberAccountServiceFactory;
+
+public class Withdraw extends ActionBase implements Transaction {
+    Withdraw(Bot bot) {
+        super(bot);
+    }
+
+    @Override
+    public void action() {
+        AccountService as = MemberAccountServiceFactory.getInstance();
+
+        Member member = getBot().getSession().getMember();
+        Account account = member.getAccount();
+        if ( account != null) {
+            as.withdraw(account, AmountGenerator.getRandomAmount());
+        }
+
+    }
+}
